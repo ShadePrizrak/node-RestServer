@@ -1,9 +1,12 @@
-require('./config/config')
+//requireds
+require('./config/config');
 
 const express = require('express');
-var bodyParser = require('body-parser');
-const app = express();
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
+//Variables
+const app = express();
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -11,38 +14,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.get('/usuario', function(req, res) {
-    res.json('get usuario');
+//Importamos rutas del usuario
+app.use(require('./rutas/usuario'));
+
+mongoose.connect(process.env.URLDB, (error, resp) => {
+    if (error) throw error;
+
+    console.log('Base de datos ONLINE');
 });
 
-app.post('/usuario', function(req, res) {
-    let body = req.body;
 
-    if (body.nombre === undefined) {
-        res
-            .status(400)
-            .json({
-                ok: false,
-                mensaje: "El nombre es necesario"
-            })
-
-    } else {
-        res.json(body);
-    }
-
-});
-
-app.put('/usuario/:id', function(req, res) {
-    let id = req.params.id;
-    res.json({
-        id
-    })
-});
-
-app.delete('/usuario', function(req, res) {
-    res.json('delete usuario');
-});
-
+//Configuración del puerto
 app.listen(process.env.PORT, () => {
-    console.log(`Escuchando desde el puerto:${process.env.PORT}. Ultima actualización:`);
+    let date = new Date();
+    console.log(`Escuchando desde el puerto:${process.env.PORT}. Ultima actualización ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
 });
