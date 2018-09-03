@@ -27,3 +27,8 @@ process.env.SEED = process.env.SEED || 'Este-es-el-seed-de-desarrollo'
 //========
 
 process.env.Mongo_URI = process.env.Mongo_URI || 'mongodb://localhost:27017/cafe';
+
+//========
+// GOOGLE CLIENT ID
+//========
+process.env.CLIENT_ID = process.env.CLIENT_ID || "809781065973-3meh6uahpl0k3f8ehhegmo2mb7340080.apps.googleusercontent.com";
