@@ -1,13 +1,12 @@
 //requireds
 const express = require('express');
-const Usuario = require('../modelos/usuario');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const { VerificarToken, VerificarAdminRole } = require('../middlewares/autenticacion');
 
 //Variables
 const app = express();
-
+const Usuario = require('../modelos/usuario');
 
 app.get('/usuario', VerificarToken, function(req, res) {
 
@@ -18,8 +17,8 @@ app.get('/usuario', VerificarToken, function(req, res) {
     limite = Number(limite)
 
     Usuario.find({ estado: true }, 'nombre email role estado google img')
-        .skip(desde)
-        .limit(limite)
+        .skip(desde) //Salta cierta cantidad de registros
+        .limit(limite) //Limite de registros que muestra desde el salto
         .exec((err, usuarios) => {
             if (err) {
                 return res
@@ -82,7 +81,7 @@ app.put('/usuario/:id', [VerificarToken, VerificarAdminRole], function(req, res)
                 ok: false,
                 err
             })
-        }
+        };
 
         res.json({
             ok: true,
